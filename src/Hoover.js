@@ -10,7 +10,9 @@ export default class Hoover extends React.Component {
       dimensions: nullCoordinates,
       initialPositionOfHover: nullCoordinates,
       locationOfDirts: [],
-      drivingInstructions: []
+      drivingInstructions: [],
+      lastPosionOfHover: nullCoordinates,
+      dirtsCleaned: 0
     };
   }
 
@@ -37,10 +39,55 @@ export default class Hoover extends React.Component {
           dimensions,
           initialPositionOfHover,
           locationOfDirts,
-          drivingInstructions
+          drivingInstructions,
+          lastPosionOfHover: initialPositionOfHover
         });
       })
+      .then(() => {
+        this.move();
+      })
       .catch(error => console.log(error));
+  }
+
+  move() {
+    this.state.drivingInstructions.forEach(instruction => {
+      let { x, y } = this.state.lastPosionOfHover;
+
+      switch (instruction) {
+        case "N":
+          y++;
+          break;
+        case "E":
+          x++;
+          break;
+        case "S":
+          y--;
+          break;
+        case "W":
+          x--;
+          break;
+        default:
+          console.error("unknown move");
+      }
+
+      const newLastPosionOfHover = { x, y };
+      let newState = {
+        lastPosionOfHover: newLastPosionOfHover
+      };
+      const dirtFound = this.state.locationOfDirts.find(
+        dirt =>
+          dirt.x === newLastPosionOfHover.x && dirt.y === newLastPosionOfHover.y
+      );
+
+      if (dirtFound) {
+        const filteredLocationOfDirts = this.state.locationOfDirts.filter(
+          dirt => dirt !== dirtFound
+        );
+        newState.dirtsCleaned = this.state.dirtsCleaned + 1;
+        newState.locationOfDirts = filteredLocationOfDirts;
+      }
+      this.setState(newState);
+    });
   }
 
   render() {
