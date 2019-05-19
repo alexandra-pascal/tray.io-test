@@ -1,7 +1,8 @@
 import React from "react";
+import Hoover from "./Hoover";
 
 function App() {
-  return <div />;
+  return <Hoover />;
 }
 
 export default App;
