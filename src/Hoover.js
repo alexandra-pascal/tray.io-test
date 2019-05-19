@@ -46,6 +46,12 @@ export default class Hoover extends React.Component {
       .then(() => {
         this.move();
       })
+      .then(() => {
+        const { x, y } = this.state.lastPosionOfHover;
+        const { dirtsCleaned } = this.state;
+        console.log(x, y);
+        console.log(dirtsCleaned);
+      })
       .catch(error => console.log(error));
   }
 
@@ -91,6 +97,15 @@ export default class Hoover extends React.Component {
   }
 
   render() {
-    return <div>Hoover test</div>;
+    const { x, y } = this.state.lastPosionOfHover;
+    const { dirtsCleaned } = this.state;
+    return (
+      <div>
+        <div>
+          {x} {y}
+        </div>
+        <div>{dirtsCleaned}</div>
+      </div>
+    );
   }
 }
