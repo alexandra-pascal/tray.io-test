@@ -76,13 +76,13 @@ export default class Hoover extends React.Component {
           console.error("unknown move");
       }
 
-      const newLastPosionOfHover = { x, y };
+      const lastPosionOfHover = { x, y };
       let newState = {
-        lastPosionOfHover: newLastPosionOfHover
+        lastPosionOfHover
       };
       const dirtFound = this.state.locationOfDirts.find(
         dirt =>
-          dirt.x === newLastPosionOfHover.x && dirt.y === newLastPosionOfHover.y
+          dirt.x === lastPosionOfHover.x && dirt.y === lastPosionOfHover.y
       );
 
       if (dirtFound) {
